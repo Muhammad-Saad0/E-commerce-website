@@ -2,8 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import Routes from "./Routes/Routes.js";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -22,11 +23,9 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use(Routes);
-
 mongoose.set("strictQuery", true);
 
-const CONNECTION_URL = `mongodb://doritozz349:SN86HwLiRZfBUKtE@ac-jthtwn0-shard-00-00.syvd46i.mongodb.net:27017,ac-jthtwn0-shard-00-01.syvd46i.mongodb.net:27017,ac-jthtwn0-shard-00-02.syvd46i.mongodb.net:27017/?ssl=true&replicaSet=atlas-49ruya-shard-0&authSource=admin&retryWrites=true&w=majority`;
+const CONNECTION_URL = process.env.CONNECTION_URL;
 
 const PORT = process.env.PORT || 4000;
 
