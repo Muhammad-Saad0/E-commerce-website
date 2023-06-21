@@ -1,7 +1,5 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
+import React, { useState } from "react";
+import axios from "../axios/axios";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -9,9 +7,10 @@ const SignInPage = () => {
     password: "",
   });
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post("/sign-in");
+  };
   return (
     <section className="h-screen">
       <div className="flex flex-row w-full h-screen items-center justify-center">
@@ -22,10 +21,7 @@ const SignInPage = () => {
         />
         <div className="w-full max-w-xs">
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              console.log("hellooo");
-            }}
+            onSubmit={handleSubmit}
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
           >
             <div className="mb-4">
@@ -37,6 +33,7 @@ const SignInPage = () => {
               </label>
               <input
                 required
+                value={formData.username}
                 onChange={(event) => {
                   setFormData({
                     ...formData,
@@ -57,6 +54,7 @@ const SignInPage = () => {
                 Password
               </label>
               <input
+                value={formData.password}
                 required
                 onChange={(event) => {
                   setFormData({
@@ -64,7 +62,7 @@ const SignInPage = () => {
                     password: event.target.value,
                   });
                 }}
-                className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
                 type="password"
                 placeholder="******************"
