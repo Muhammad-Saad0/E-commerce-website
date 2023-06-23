@@ -5,6 +5,8 @@ import {
 } from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
 import Navbar from "./components/Navbar";
+import SignUpPage from "./pages/SignUpPage";
+import Alert from "./components/Alert/Alert";
 
 function App() {
   return (

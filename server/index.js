@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import Routes from "./routes/routes.js";
 dotenv.config();
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.use(Routes);
 
 mongoose.set("strictQuery", true);
 
