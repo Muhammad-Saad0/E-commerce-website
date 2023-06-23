@@ -3,6 +3,7 @@ import UserModel from "../models/userModel.js";
 import brcypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { createToken } from "../util-functions/functions.js";
 dotenv.config();
 
 const secret = process.env.SECRET;
@@ -49,24 +50,41 @@ Router.post("/sign-in", async (req, res) => {
     return res
       .status(400)
       .json("wrong credentials");
-  jwt.sign(
+  createToken(
     {
       username: userDoc.username,
       email: email,
-      id: userDoc._id,
     },
-    secret,
-    {},
-    (err, token) => {
-      if (err) throw err;
-      //SENDING THE TOKEN BACK AS A COOKIE
+    secret
+  )
+    .then((token) => {
+      // Sending the token back as a cookie
       res.cookie("token", token).json({
         username: userDoc.username,
         email: email,
-        id: userDoc._id,
       });
-    }
-  );
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+Router.post("/create-token", (req, res) => {
+  const userData = req.body;
+  createToken(userData, secret)
+    .then((token) => {
+      // Sending the token back as a cookie
+      res.cookie("token", token).json(userData);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+Router.get("/logout", async (req, res) => {
+  const { token } = req.cookies;
+  // READING THE TOKEN
+  res.cookie("token", "").json("logged out");
 });
 
 Router.get("/profile", async (req, res) => {

@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 import axios from "../axios/axios";
 import { Navigate } from "react-router-dom";
 import Alert from "../components/Alert/Alert";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 
 const SignInPage = () => {
+  useEffect(() => {
+    axios
+      .get("/profile")
+      .then((response) => {
+        if (response.data) setRedirect(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, []);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,10 +33,16 @@ const SignInPage = () => {
     text: "",
   });
 
-  const clearFormData = () => {
-    setFormData({
-      email: "",
-      password: "",
+  const responseGoogle = async (response) => {
+    const userData = jwt_decode(
+      response.credential
+    );
+    await axios.post("/create-token", {
+      username: userData.name,
+      email: userData.email,
+    });
+    axios.get("/profile").then((response) => {
+      if (response.data) setRedirect(true);
     });
   };
 
@@ -38,11 +60,11 @@ const SignInPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "/sign-in",
-        formData
-      );
-      clearFormData();
+      await axios.post("/sign-in", formData);
+      axios.get("/profile").then((response) => {
+        console.log(response);
+      });
+      setRedirect(true);
     } catch ({ response }) {
       if (response?.status === 409) {
         setAlert({
@@ -138,20 +160,30 @@ const SignInPage = () => {
               </button>
               <a
                 className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                href="#"
+                href="/sign-up"
               >
-                Forgot Password?
+                sign up?
               </a>
             </div>
             <p className="text-center opacity-50 my-2">
               -----or-----
             </p>
-            <button
-              className="bg-orange-500 text-white w-full text-center py-2 rounded-[6px] font-semibold"
-              type="button"
-            >
-              Sign In with Google
-            </button>
+            <div className="flex flex-col items-center">
+              {/* Add the GoogleLogin component */}
+              <GoogleLogin
+                isSignedIn={true}
+                prompt="select_account"
+                buttonText="Sign in with Google"
+                onSuccess={responseGoogle}
+                onError={() => {
+                  setAlert({
+                    show: true,
+                    text: "Login failed",
+                    type: "ERROR",
+                  });
+                }}
+              />
+            </div>
           </form>
           <p className="text-center text-gray-500 text-xs">
             &copy;2020 Acme Corp. All rights

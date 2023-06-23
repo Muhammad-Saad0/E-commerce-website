@@ -5,8 +5,8 @@ import {
 } from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 import SignUpPage from "./pages/SignUpPage";
-import Alert from "./components/Alert/Alert";
 
 function App() {
   return (
@@ -18,6 +18,16 @@ function App() {
             path="/"
             exact
             element={<SignInPage />}
+          />
+          <Route
+            path="/home"
+            exact
+            element={<Home />}
+          />
+          <Route
+            path="/sign-up"
+            exact
+            element={<SignUpPage />}
           />
         </Routes>
       </Router>
