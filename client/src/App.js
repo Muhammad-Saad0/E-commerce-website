@@ -3,14 +3,18 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import React from "react";
 import SignInPage from "./pages/SignInPage";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SignUpPage from "./pages/SignUpPage";
+import Admin from "./pages/Admin";
+import AdminLayout from "./components/AdminLayout";
+import CreateProduct from "./pages/CreateProduct";
 
 function App() {
   return (
-    <div>
+    <React.Fragment>
       <Router>
         <Navbar />
         <Routes>
@@ -29,9 +33,19 @@ function App() {
             exact
             element={<SignUpPage />}
           />
+          <Route
+            path="/admin"
+            element={<AdminLayout />}
+          >
+            <Route index element={<Admin />} />
+            <Route
+              path="create-product"
+              element={<CreateProduct />}
+            />
+          </Route>
         </Routes>
       </Router>
-    </div>
+    </React.Fragment>
   );
 }
 
