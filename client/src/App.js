@@ -11,6 +11,7 @@ import SignUpPage from "./pages/SignUpPage";
 import Admin from "./pages/Admin";
 import AdminLayout from "./components/AdminLayout";
 import CreateProduct from "./pages/CreateProduct";
+import AdminProducts from "./pages/AdminProducts";
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
             <Route
               path="create-product"
               element={<CreateProduct />}
+            />
+            <Route
+              path="products"
+              element={<AdminProducts />}
             />
           </Route>
         </Routes>
