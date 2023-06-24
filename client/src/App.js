@@ -15,7 +15,7 @@ import AdminProducts from "./pages/AdminProducts";
 
 function App() {
   return (
-    <React.Fragment>
+    <div className="font-poppins">
       <Router>
         <Navbar />
         <Routes>
@@ -50,7 +50,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </React.Fragment>
+    </div>
   );
 }
 

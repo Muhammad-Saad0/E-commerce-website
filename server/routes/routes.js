@@ -4,8 +4,11 @@ import brcypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { createToken } from "../util-functions/functions.js";
+import multer from "multer";
+import storage from "../util-functions/multer.js";
 dotenv.config();
 
+const upload = multer({ storage: storage });
 const secret = process.env.SECRET;
 
 const Router = express.Router();
@@ -95,5 +98,13 @@ Router.get("/profile", async (req, res) => {
     res.json(info);
   });
 });
+
+Router.post(
+  "/add-product",
+  upload.single("image"),
+  (req, res) => {
+    console.log(req.file);
+  }
+);
 
 export default Router;
