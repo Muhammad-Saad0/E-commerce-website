@@ -74,7 +74,6 @@ const CreateProduct = () => {
             </label>
             <FileBase
               type="file"
-              className="form-input mt-1 block w-full border border-gray-300 px-4 py-2"
               multiple={false}
               onDone={({ base64 }) =>
                 setFormData({

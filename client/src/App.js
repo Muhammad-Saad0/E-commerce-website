@@ -8,8 +8,8 @@ import SignInPage from "./pages/SignInPage";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SignUpPage from "./pages/SignUpPage";
-import Admin from "./pages/Admin";
 import AdminLayout from "./components/AdminLayout";
+import AdminDashboard from "./pages/AdminDashboard";
 import CreateProduct from "./pages/CreateProduct";
 import AdminProducts from "./pages/AdminProducts";
 
@@ -38,7 +38,10 @@ function App() {
             path="/admin"
             element={<AdminLayout />}
           >
-            <Route index element={<Admin />} />
+            <Route
+              index
+              element={<AdminDashboard />}
+            />
             <Route
               path="create-product"
               element={<CreateProduct />}
