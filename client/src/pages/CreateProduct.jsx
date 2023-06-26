@@ -72,16 +72,18 @@ const CreateProduct = () => {
             >
               Product Image:
             </label>
-            <FileBase
-              type="file"
-              multiple={false}
-              onDone={({ base64 }) =>
-                setFormData({
-                  ...formData,
-                  image: base64,
-                })
-              }
-            />
+            <div className="border border-gray-300 px-4 py-2">
+              <FileBase
+                type="file"
+                multiple={false}
+                onDone={({ base64 }) =>
+                  setFormData({
+                    ...formData,
+                    image: base64,
+                  })
+                }
+              />
+            </div>
           </div>
           <div class="mb-4">
             <label
