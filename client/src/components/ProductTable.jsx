@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TrashIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/solid";
+import ConfirmModal from "./ConfirmModal";
+import { useDispatch } from "react-redux";
+import { deleteProduct } from "../redux/actions/productActions";
+import { Link } from "react-router-dom";
 
 const ProductTable = ({ products }) => {
+  const dispatch = useDispatch();
+  const [showModal, setShowModal] =
+    useState(false);
+  const [currentProductId, setCurrentProductId] =
+    useState("");
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirm = () => {
+    try {
+      console.log(currentProductId);
+      dispatch(deleteProduct(currentProductId));
+    } catch (error) {}
+  };
   return (
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left">
@@ -28,69 +47,63 @@ const ProductTable = ({ products }) => {
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-white border-gray-700">
-            <td className="py-2 px-4 border-b">
-              <img
-                src=""
-                alt="product-image"
-                className="w-16 h-16 object-contain"
-              />
-            </td>
-            <td class="px-6 py-4">
-              Apple Macbook 2020
-            </td>
-            <td class="px-6 py-4">Laptop</td>
-            <td class="px-6 py-4">$2999</td>
-            <td class="px-6 py-4 flex gap-3 flex-row">
-              <a href="/admin">
-                <PencilSquareIcon className="w-6 h-6 text-green-500" />
-              </a>
-              <button>
-                <TrashIcon className="w-6 h-6 text-red-700" />
-              </button>
-            </td>
-          </tr>
+          {products?.map((product, index) => {
+            return (
+              <tr
+                key={index}
+                class={`${
+                  index % 2 === 0
+                    ? "bg-white"
+                    : "bg-gray-200"
+                } border-gray-700`}
+              >
+                <td className="py-2 px-4 border-b">
+                  <img
+                    src={product.image}
+                    alt="product"
+                    className="w-28 h-20 object-contain"
+                  />
+                </td>
+                <td class="px-6 py-4 border-b">
+                  {product.name}
+                </td>
+                <td class="px-6 py-4 border-b">
+                  {product.category}
+                </td>
+                <td class="px-6 py-4 border-b">
+                  ${product.price}
+                </td>
+                <td class="px-6 py-4 border-b">
+                  <div className="flex flex-row gap-4">
+                    <Link
+                      to={`/admin/edit-product/${product._id}`}
+                    >
+                      <PencilSquareIcon className="w-6 h-6 text-green-500" />
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setShowModal(true);
+                        setCurrentProductId(
+                          product._id
+                        );
+                      }}
+                    >
+                      <TrashIcon className="w-6 h-6 text-red-700" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+      <ConfirmModal
+        showModal={showModal}
+        handleCancel={handleCancel}
+        handleConfirm={handleConfirm}
+        setShowModal={setShowModal}
+      />
     </div>
-
-    // <table className="min-w-full border border-gray-300">
-    //   <thead className="border-y-2 border-cyan-400">
-    //     <tr>
-    //       <th className="py-2 px-4 border-b">
-    //         Image
-    //       </th>
-    //       <th className="py-2 px-4 border-b">
-    //         Price
-    //       </th>
-    //       <th className="py-2 px-4 border-b">
-    //         Options
-    //       </th>
-    //     </tr>
-    //   </thead>
-    //   <tbody>
-    //     {products.map((product) => (
-    //       <tr key={product.id}>
-    //         <td className="py-2 px-4 border-b">
-    //           <img
-    //             src={product.image}
-    //             alt={product.name}
-    //             className="w-16 h-16 object-contain"
-    //           />
-    //         </td>
-    //         <td className="py-2 px-4 border-b">
-    //           {product.price}
-    //         </td>
-    //         <td className="py-2 px-4 border-b">
-    //           <button className="bg-blue-500 text-white py-1 px-2 rounded-md">
-    //             Edit
-    //           </button>
-    //           {/* Add other options or buttons here */}
-    //         </td>
-    //       </tr>
-    //     ))}
-    //   </tbody>
-    // </table>
   );
 };
 

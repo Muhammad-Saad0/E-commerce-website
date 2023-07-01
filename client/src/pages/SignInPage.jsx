@@ -7,8 +7,12 @@ import { Navigate } from "react-router-dom";
 import Alert from "../components/Alert/Alert";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { setId } from "../redux/actions/userActions";
+import { setCart } from "../utils/functions";
 
 const SignInPage = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
     axios
       .get("/profile")
@@ -37,10 +41,32 @@ const SignInPage = () => {
     const userData = jwt_decode(
       response.credential
     );
-    await axios.post("/create-token", {
-      username: userData.name,
-      email: userData.email,
-    });
+    try {
+      await axios.post("/register", {
+        username: userData.name,
+        email: userData.email,
+      });
+      setCart([]);
+      await axios.post("/create-token", {
+        username: userData.name,
+        email: userData.email,
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.response?.status === 409) {
+        await axios.post("/create-token", {
+          username: userData.name,
+          email: userData.email,
+        });
+        const response = await axios.post(
+          "/fetch-cart",
+          {
+            email: userData.email,
+          }
+        );
+        setCart(response.data);
+      }
+    }
     axios.get("/profile").then((response) => {
       if (response.data) setRedirect(true);
     });
@@ -60,10 +86,13 @@ const SignInPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("/sign-in", formData);
-      axios.get("/profile").then((response) => {
-        console.log(response);
-      });
+      const response = await axios.post(
+        "/sign-in",
+        formData
+      );
+      const myArray = response.data.cart;
+      setCart(myArray);
+      dispatch(setId(response.data.id));
       setRedirect(true);
     } catch ({ response }) {
       if (response?.status === 409) {

@@ -1,5 +1,6 @@
 import React from "react";
 import { ClipboardDocumentIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 const AdminSideBar = () => {
   return (
@@ -7,8 +8,8 @@ const AdminSideBar = () => {
       <div class="h-full px-3 py-4 overflow-y-auto bg-gray-200">
         <ul class="space-y-2 font-medium">
           <li>
-            <a
-              href="/admin"
+            <Link
+              to="/admin"
               class="flex items-center p-2 mt-[80px] rounded-lg hover:text-white text-black hover:bg-gray-700"
             >
               <svg
@@ -22,11 +23,11 @@ const AdminSideBar = () => {
                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
               </svg>
               <span class="ml-3">Dashboard</span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="/admin/create-product"
+            <Link
+              to="/admin/create-product"
               class="flex items-center p-2 rounded-lg hover:text-white text-black hover:bg-gray-700"
             >
               <svg
@@ -45,22 +46,22 @@ const AdminSideBar = () => {
               <span class="flex-1 ml-3 whitespace-nowrap">
                 Add Product
               </span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="/admin/products"
+            <Link
+              to="/admin/products"
               class="flex items-center p-2 rounded-lg hover:text-white text-black hover:bg-gray-700"
             >
               <ClipboardDocumentIcon className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
               <span class="flex-1 ml-3 whitespace-nowrap">
                 Orders
               </span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="/admin/products"
+            <Link
+              to="/admin/products"
               class="flex items-center p-2 rounded-lg hover:text-white text-black hover:bg-gray-700"
             >
               <svg
@@ -79,7 +80,7 @@ const AdminSideBar = () => {
               <span class="flex-1 ml-3 whitespace-nowrap">
                 Products
               </span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

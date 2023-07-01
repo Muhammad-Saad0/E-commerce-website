@@ -1,14 +1,13 @@
 import React from "react";
-import axios from "../axios/axios";
+import Hero from "../components/Hero";
+import useRouteLoad from "../components/useRouteLoad";
 
 const Home = () => {
+  useRouteLoad();
+
   return (
-    <div className="relative mt-[75px]">
-      <button
-        onClick={() => axios.get("/logout")}
-      >
-        Log out
-      </button>
+    <div>
+      <Hero />
     </div>
   );
 };

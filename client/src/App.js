@@ -3,7 +3,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import SignInPage from "./pages/SignInPage";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -12,8 +12,18 @@ import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateProduct from "./pages/CreateProduct";
 import AdminProducts from "./pages/AdminProducts";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "./redux/actions/productActions";
+import EditProduct from "./pages/EditProduct";
+import ProductsPage from "./pages/Products";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
+
   return (
     <div className="font-poppins">
       <Router>
@@ -23,6 +33,11 @@ function App() {
             path="/"
             exact
             element={<SignInPage />}
+          />
+          <Route
+            path="/products"
+            exact
+            element={<ProductsPage />}
           />
           <Route
             path="/home"
@@ -49,6 +64,10 @@ function App() {
             <Route
               path="products"
               element={<AdminProducts />}
+            />
+            <Route
+              path="edit-product/:id"
+              element={<EditProduct />}
             />
           </Route>
         </Routes>

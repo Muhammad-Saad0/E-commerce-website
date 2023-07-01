@@ -1,0 +1,50 @@
+.slider {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+
+  .wrapper {
+    height: 100vh;
+    transition: 0.5s all linear;
+    will-change: transform;
+  }
+
+  .arrows {
+    position: absolute;
+    top: 50%;
+    background: none;
+    height: 60px;
+    border: 0;
+    cursor: pointer;
+    transition: ease 0.3s all;
+    outline: none;
+
+    &.prev {
+      left: 0;
+
+      &:hover {
+        opacity: 0.7;
+        left: -10px;
+      }
+    }
+
+    &.next {
+      right: 0;
+
+      &:hover {
+        right: -10px;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .each-slide {
+    width: 100vw;
+    height: 100vh;
+    float: left;
+    text-align: center;
+    background-size: cover;
+    background-position: center center;
+    background-color: transparent;
+  }
+}

@@ -13,7 +13,7 @@ const Navbar = () => {
     console.log(activePage);
   }, []);
   return (
-    <nav className="fixed w-full top-0 flex px-20 flex-row h-[70px] bg-primary justify-between items-center">
+    <nav className="fixed w-full top-0 z-50 flex px-20 flex-row h-[70px] bg-primary justify-between items-center">
       <div>
         <h1 className="text-white text-[28px]">
           e
